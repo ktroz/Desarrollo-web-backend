@@ -1,0 +1,13 @@
+services:
+  postgres:
+      container_name: db_desarrollo_web
+      image: postgres
+      restart: always
+      ports:
+          - ${PG_PORT}:${PG_PORT}
+      environment:
+          POSTGRES_PASSWORD: ${PG_PASSWORD}
+          POSTGRES_USER: ${PG_USER}
+      volumes:
+          - ./docker/postgres_data:/var/lib/postgresql/data
+          - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
