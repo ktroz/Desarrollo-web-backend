@@ -8,4 +8,10 @@ export default class Person {
 			data : payload
 		})
 	}
+
+	findUnique(query) {
+		return this.#client.findUnique({
+			where : query
+		})
+	}
 }

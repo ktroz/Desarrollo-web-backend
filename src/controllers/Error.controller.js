@@ -13,6 +13,10 @@ export default class ErrorController extends Error{
             code: 404,
             message: 'Not Found'
         },
+        EXIST: {
+            code: 409,
+            message: 'Conflict with state of the server'
+        },
         INTERNAL_SERVER_ERROR: {
             code: 500,
             message: 'Internal Server Error'
@@ -21,7 +25,8 @@ export default class ErrorController extends Error{
     
     constructor(type = 'INTERNAL_SERVER_ERROR', message) {
         super(message)
-        this.message = this.#errors[type].message
+        this.type = type
+        message ? this.message = message : this.message = this.#errors[type].message
         this.code = this.#errors[type].code
     }
 }

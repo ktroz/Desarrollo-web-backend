@@ -4,13 +4,14 @@ import ErrorController from './Error.controller'
 export default class PersonController {
 	#model = new Person()
 
-	create({person}){
-		//Esta parte solo es para ejemplificar cuando se lanze un error, como tal lo debemos configurar.
-		throw new ErrorController()
-		/**
-		 * Codigo de ejemplo
-		 * if(this.#model.findUnique(...)) {error}
-		 */
-		return this.#model.create(person)
+	async create({person}){
+		if(!person){
+			throw new ErrorController('BAD_REQUEST')
+		}
+		const oldPerson = await this.#model.findUnique({ email: person.email })
+		if(oldPerson){
+			throw new ErrorController('EXIST', 'Person already exist')
+		}
+		return await this.#model.create(person)
 	}
 }
